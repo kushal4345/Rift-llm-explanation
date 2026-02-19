@@ -1,8 +1,7 @@
-
-
 import os
 import re
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware   # ✅ ADDED
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import google.generativeai as genai
@@ -44,6 +43,18 @@ sarvam_client = SarvamAI(api_subscription_key=SARVAM_API_KEY)
 app = FastAPI(
     title="Pharmacogenomics Explanation API",
     version="4.0.0"
+)
+
+# ==========================================
+# CORS CONFIGURATION  ✅ ADDED
+# ==========================================
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins (safe for hackathon/testing)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # ==========================================
@@ -94,7 +105,7 @@ def clean_text_for_translation(text: str) -> str:
     text = text.replace("“", '"').replace("”", '"')
     text = text.replace("‘", "'").replace("’", "'")
     text = text.replace("—", "-")
-    text = re.sub(r'[^\x00-\x7F]+', ' ', text)  # remove emojis/unicode
+    text = re.sub(r'[^\x00-\x7F]+', ' ', text)
     text = re.sub(r'\n{3,}', '\n\n', text)
     return text.strip()
 
