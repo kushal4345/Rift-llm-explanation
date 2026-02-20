@@ -88,6 +88,14 @@ STRICT RULES:
 - Do NOT override CPIC evidence.
 - Keep gene symbols unchanged.
 
+LENGTH RULES:
+- Clinician Summary: max 1 lines
+- Patient Explanation: max 1 lines
+- Mechanism Explanation: max 1 lines
+- Monitoring Advice: max 1 lines
+- Use concise medical language.
+- Avoid repetition.
+
 Generate structured sections:
 
 Clinician Summary:
@@ -95,6 +103,7 @@ Patient Explanation:
 Mechanism Explanation:
 Monitoring Advice:
 """
+
 
 # ==========================================
 # CLEAN TEXT BEFORE TRANSLATION
@@ -142,7 +151,7 @@ def translate_text(text, target_language):
 
     try:
         cleaned_text = clean_text_for_translation(text)
-        max_chunk_size = 900
+        max_chunk_size = 500
         translated_chunks = []
 
         for i in range(0, len(cleaned_text), max_chunk_size):
